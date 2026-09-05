@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://danialbo13.github.io/naya-tattoo/sitemap.xml
