@@ -1,0 +1,1 @@
+window.NAYA_CONFIG={brand:'NAYA TATTOO',whatsapp:'989019414516',instagram:'',city:'',designCount:20};
