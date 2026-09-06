@@ -44,10 +44,17 @@ for(const file of pages){
 }
 const index=fs.readFileSync('index.html','utf8');
 if(!index.includes('google-site-verification')) fail.push('index.html: Google verification meta was removed');
+if(!index.includes('normalizeSelected')) fail.push('index.html: saved design normalization missing');
+const designs=fs.readFileSync('designs.html','utf8');
+for(const token of ['aria-modal="true"','aria-labelledby="code"','trapModalFocus','lastFocus','im.tabIndex=0']) if(!designs.includes(token)) fail.push(`designs.html: modal accessibility requirement missing -> ${token}`);
+const packages=fs.readFileSync('packages.html','utf8');
+for(const token of ['property="og:title"','property="og:description"','property="og:url"','role="button"','tabindex="0"','aria-pressed=']) if(!packages.includes(token)) fail.push(`packages.html: sales/accessibility requirement missing -> ${token}`);
+if(!packages.includes('href="#lead"')) fail.push('packages.html: lead CTA missing');
 const recovery=fs.readFileSync('404.html','utf8');
 if(!recovery.includes('site-config.js')) fail.push('404.html: site-config.js not loaded');
+if(!recovery.includes('content="noindex,follow"')) fail.push('404.html: noindex,follow robots directive missing');
 for(const link of ['./','designs.html','packages.html']) if(!recovery.includes(`href="${link}"`)) fail.push(`404.html: recovery link missing -> ${link}`);
 const sitemap=fs.readFileSync('sitemap.xml','utf8');
 for(const page of ['https://danialbo13.github.io/naya-tattoo/','https://danialbo13.github.io/naya-tattoo/designs.html','https://danialbo13.github.io/naya-tattoo/packages.html']) if(!sitemap.includes(page)) fail.push(`sitemap missing ${page}`);
 if(fail.length){console.error('NAYA validation failed:\n- '+fail.join('\n- '));process.exit(1)}
-console.log(`NAYA validation passed: ${count} designs, required pages/config/assets/anchors/SEO/recovery verified.`);
+console.log(`NAYA validation passed: ${count} designs, required pages/config/assets/anchors/SEO/accessibility/sales/recovery verified.`);
